@@ -1,4 +1,4 @@
-import Assign as assign
+import Tokenization as token
 import os
 
 diction_list = []
@@ -8,6 +8,6 @@ corpus = os.listdir(directoryCorpus)
 
 for file in corpus:
     with open(directoryCorpus + "\\" + file, "r",encoding= "utf-8") as f:
-        diction_list.append(assign.Tokenization(f))
+        diction_list.append(token.Tokenization(f))
         
-assign.RankedBarChart()
+token.RankedBarChart()
