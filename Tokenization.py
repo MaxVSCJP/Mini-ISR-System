@@ -1,13 +1,10 @@
-import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 
-
 word_dic = {}
-PUNC = ["።","፤","።","."]
-num = ["፪","፫","፬","፭","ዕፀ","፮","፯","፰","፱","",".","?",":","1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+PUNC = {"።","፤","።","."}
+num = {"፪","፫","፬","፭","ዕፀ","፮","፯","፰","፱","",".","?",":","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n", "\t"}
 sorted_dict_values = {}
 
 
@@ -16,9 +13,8 @@ def Tokenization(f):
     for line in f:
         words = line.lower().split(" ")
         for word in words:
-            if word in num:
-                words.remove(word)
-            else:
+            word = word.replace("\n", "").replace("\t", "")
+            if word not in num:
                 if word:
                     if word[-1] not in PUNC:
                         if word  in word_dic:
@@ -36,34 +32,34 @@ def Tokenization(f):
 
 def RankedBarChart():
     
+    print(sorted_dict_values)
 
+    # Sets a custom font because the default font doesn't show Ethiopic characters
     custom_font_entry = font_manager.FontEntry(fname="C:\\Windows\\Fonts\\nyala.ttf", name='CustomFont')
     font_manager.fontManager.ttflist.insert(0, custom_font_entry)
     plt.rcParams['font.family'] = 'CustomFont'
 
-
-    print(sorted_dict_values)
+    # Creating the lists that will be the x and y axes of out graph
     word_rank  = []               
-
-    """ for key, value in sorted_dict_values.items():
-        print(key, value) """
-
     word_rank = list(range(1, len(sorted_dict_values) + 1))
 
     kale = list(sorted_dict_values.values())
 
+    # shortening the list becasue the graph would be anomalous if it was too long
     wordRankMini = []
-    for i in range(1):
+    for i in range(1000):
         wordRankMini.append(word_rank[i])
 
     kaleMini = []
-    for i in range(1):
+    for i in range(1000):
         kaleMini.append(kale[i])
 
+    # making the graph
     plt.figure(figsize=(24, 12))
-    plt.bar(wordRankMini, kaleMini, align='center', tick_label=sorted_dict_values.keys())
-    plt.xlabel('ራንክ')
-    plt.ylabel('ቃል') 
+    plt.bar(wordRankMini, kaleMini, align='center')
+    plt.xlabel('Rank')
+    plt.ylabel('Frequency') 
     plt.grid(True)
     plt.show() 
+    
     

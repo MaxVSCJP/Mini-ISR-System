@@ -2,7 +2,6 @@ import Tokenization as token
 import os
 
 diction_list = []
-
 directoryCorpus = os.getcwd() + "\\Corpus"
 corpus = os.listdir(directoryCorpus)
 
