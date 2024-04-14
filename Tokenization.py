@@ -31,8 +31,6 @@ def Tokenization(f):
     return sorted_dict_values
 
 def RankedBarChart():
-    
-    print(sorted_dict_values)
 
     # Sets a custom font because the default font doesn't show Ethiopic characters
     custom_font_entry = font_manager.FontEntry(fname="C:\\Windows\\Fonts\\nyala.ttf", name='CustomFont')
@@ -43,26 +41,29 @@ def RankedBarChart():
     word_rank  = []               
     word_rank = list(range(1, len(sorted_dict_values) + 1))
 
-    kale = list(sorted_dict_values.values())
+    frequency = list(sorted_dict_values.values())
+
+    N = len(word_rank)
+    print("Total Number of Tokens", N)
 
     # shortening the list becasue the graph would be anomalous if it was too long
     wordRankMini = []
     for i in range(1000):
         wordRankMini.append(word_rank[i])
 
-    kaleMini = []
+    frequencyMini = []
     for i in range(1000):
-        kaleMini.append(kale[i])
+        frequencyMini.append(frequency[i])
 
     # calculating the constant C for each word 
     print("\n\n")
-    for i in range(1000):
-        print("Constant C of Rank", i+1, ":  ", wordRankMini[i] * kaleMini[i])
+    for i in range(20000):
+        print("Constant C of Rank", i+1, ":  ", word_rank[i] * (frequency[i] / N))
 
 
     # making the graph
     plt.figure(figsize=(24, 12))
-    plt.bar(wordRankMini, kaleMini, align='center')
+    plt.bar(wordRankMini, frequencyMini, align='center')
     plt.xlabel('Rank')
     plt.ylabel('Frequency') 
     plt.grid(True)
