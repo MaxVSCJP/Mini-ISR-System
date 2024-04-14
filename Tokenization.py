@@ -54,6 +54,12 @@ def RankedBarChart():
     for i in range(1000):
         kaleMini.append(kale[i])
 
+    # calculating the constant C for each word 
+    print("\n\n")
+    for i in range(1000):
+        print("Constant C of Rank", i+1, ":  ", wordRankMini[i] * kaleMini[i])
+
+
     # making the graph
     plt.figure(figsize=(24, 12))
     plt.bar(wordRankMini, kaleMini, align='center')
