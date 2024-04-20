@@ -2,14 +2,16 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 
-word_dic = {}
 PUNC = {"።","፤","።","."}
 num = {"፪","፫","፬","፭","ዕፀ","፮","፯","፰","፱","",".","?",":","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n", "\t"}
+word_dic_global = {}
 sorted_dict_values = {}
 
 
 def Tokenization(f):
-    global sorted_dict_values
+    word_dic = {}
+    global word_dic_global
+    global sorted_dict_values 
     for line in f:
         words = line.lower().split(" ")
         for word in words:
@@ -21,14 +23,23 @@ def Tokenization(f):
                             word_dic[word] += 1
                         else:
                             word_dic[word] = 1
+                        if word in word_dic_global:
+                            word_dic_global[word] += 1
+                        else:
+                            word_dic_global[word] = 1
                     else:
                         if word  in word_dic:
                             word_dic[word[:-1]] += 1
                         else:
                             word_dic[word[:-1]] = 1
+                        if word in word_dic_global:
+                            word_dic_global[word[:-1]] += 1
+                        else:
+                            word_dic_global[word[:-1]] = 1
 
-    sorted_dict_values = dict(sorted(word_dic.items(), key=lambda item: item[1],reverse= True))
-    return sorted_dict_values
+    sorted_dict_values = dict(sorted(word_dic_global.items(), key=lambda item: item[1],reverse= True))
+    sorted_dic = dict(sorted(word_dic.items(), key=lambda item: item[1],reverse= True))
+    return sorted_dic
 
 def RankedBarChart():
 
@@ -53,11 +64,11 @@ def RankedBarChart():
 
     frequencyMini = []
     for i in range(1000):
-        frequencyMini.append(frequency[i])
+        frequencyMini.append(frequency[i] / N)
 
     # calculating the constant C for each word 
     print("\n\n")
-    for i in range(20000):
+    for i in range(N):
         print("Constant C of Rank", i+1, ":  ", word_rank[i] * (frequency[i] / N))
 
 
