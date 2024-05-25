@@ -19,23 +19,12 @@ def Tokenization(f):
             if word not in num:
                 if word:
                     if word[-1] not in PUNC:
-                        if word  in word_dic:
-                            word_dic[word] += 1
-                        else:
-                            word_dic[word] = 1
-                        if word in word_dic_global:
-                            word_dic_global[word] += 1
-                        else:
-                            word_dic_global[word] = 1
+                        word_dic[word]=word_dic.get(word,0)+1
+                        word_dic_global[word] = word_dic.get(word,0)+1
+
                     else:
-                        if word  in word_dic:
-                            word_dic[word[:-1]] += 1
-                        else:
-                            word_dic[word[:-1]] = 1
-                        if word in word_dic_global:
-                            word_dic_global[word[:-1]] += 1
-                        else:
-                            word_dic_global[word[:-1]] = 1
+                        word_dic[word[:-1]]=word_dic.get(word[:-1],0)+1
+                        word_dic_global[word[:-1]] = word_dic.get(word[:-1],0)+1
 
     sorted_dict_values = dict(sorted(word_dic_global.items(), key=lambda item: item[1],reverse= True))
     sorted_dic = dict(sorted(word_dic.items(), key=lambda item: item[1],reverse= True))
