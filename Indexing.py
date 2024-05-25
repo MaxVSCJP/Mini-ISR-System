@@ -1,4 +1,5 @@
 import Tokenization as token
+import stmmer as stem
 import os
 import json
 
@@ -8,7 +9,7 @@ corpus = os.listdir(directoryCorpus)
 
 for file in corpus:
     with open(directoryCorpus + "\\" + file, "r",encoding= "utf-8") as f:
-        diction_dict[file] = (token.Tokenization(f))
+        diction_dict[file] = stem.geez_stemmer((token.Tokenization(f)))
         
 
 with open ("Inverted file.txt", "w") as IFile:
