@@ -3,6 +3,7 @@ import Tokenization as token
 import math
 
 diction_dicts = json.load(open("Inverted File.txt"))
+rankedSearch = []
 
 def Search(query, diction_dict: dict[str, dict[str, int]]):
     numerator = 0
@@ -37,9 +38,14 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
 
 
 def RankedDocument(searchQuery):
-    rankedSearch = dict(sorted(Search(searchQuery, diction_dicts).items(), key=lambda item: item[1],reverse= True))
-    return rankedSearch.keys()
+    global rankedSearch
+    rankedSearch_dict = dict(sorted(Search(searchQuery, diction_dicts).items(), key=lambda item: item[1],reverse= True))
+    rankedSearch = list(rankedSearch_dict.keys())
+    return rankedSearch_dict.keys()
 
-query = input("Input Query\n")
-print(RankedDocument(query))
+
+
+def QueryFromGUI(query):
+    print(query)
+    print(RankedDocument(query))
 

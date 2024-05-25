@@ -3,18 +3,27 @@ import stmmer as stem
 import os
 import json
 
-diction_dict = {}
-directoryCorpus = os.getcwd() + "\\Corpus"
-corpus = os.listdir(directoryCorpus)
+directoryCorpus = ""
 
-for file in corpus:
-    with open(directoryCorpus + "\\" + file, "r",encoding= "utf-8") as f:
-        diction_dict[file] = stem.geez_stemmer((token.Tokenization(f)))
-        
+def Indexing():
+    global directoryCorpus
+    # Read the file
+    diction_dict = {}
+    directoryCorpus = os.getcwd() + "\\Corpus"
+    corpus = os.listdir(directoryCorpus)
 
-with open ("Inverted file.txt", "w") as IFile:
-    json.dump(diction_dict, IFile)
 
-IFile.close()
+    for file in corpus:
+        with open(directoryCorpus + "\\" + file, "r",encoding= "utf-8") as f:
+            diction_dict[file] = stem.geez_stemmer((token.Tokenization(f)))
+            
 
-token.RankedBarChart()
+    with open ("Inverted file.txt", "w") as IFile:
+        json.dump(diction_dict, IFile)
+
+    IFile.close()
+
+def showRankedBarChart():
+    token.RankedBarChart()
+
+Indexing()
