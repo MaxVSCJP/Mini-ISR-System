@@ -23,13 +23,11 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
                 numerator += query_dict[term] * tf
                 denomDoc += tf * tf
                 denomQuery += query_dict[term] * query_dict[term]
-        print(numerator)
-        print(denomQuery)
-        print(denomDoc)
         try:
             similarity = numerator/math.sqrt(denomDoc * denomQuery)
         except ZeroDivisionError:
             similarity = 0
+            
         print(document,similarity)
         searchedDocument[document] = similarity
         numerator = 0
@@ -38,10 +36,10 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
     return searchedDocument
 
 
-def SearchedDocument(searchQuery):
+def RankedDocument(searchQuery):
     rankedSearch = dict(sorted(Search(searchQuery, diction_dicts).items(), key=lambda item: item[1],reverse= True))
     return rankedSearch.keys()
 
 query = input("Input Query\n")
-print(SearchedDocument(query))
+print(RankedDocument(query))
 
