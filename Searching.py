@@ -2,6 +2,8 @@ import json
 import Tokenization as token
 import math
 import stmmer as stem
+import Stopword as SR
+import Normalizer as normal
 
 diction_dicts = json.load(open("Inverted File.txt"))
 rankedSearch = []
@@ -16,7 +18,7 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
         queryFile.close()
 
     with open("Query.txt", "r", encoding="UTF-8") as queryFile:
-        query_dict = stem.geez_stemmer(token.Tokenization(queryFile))
+        query_dict = SR.SWRLower(normal.charnorm(stem.geez_stemmer(token.Tokenization(queryFile))))
         print(query_dict)
         
     
