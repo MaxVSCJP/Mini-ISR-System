@@ -1,6 +1,7 @@
 import json
 import Tokenization as token
 import math
+import stmmer as stem
 
 diction_dicts = json.load(open("Inverted File.txt"))
 rankedSearch = []
@@ -15,18 +16,24 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
         queryFile.close()
 
     with open("Query.txt", "r", encoding="UTF-8") as queryFile:
-        query_dict = token.Tokenization(queryFile)
+        query_dict = stem.geez_stemmer(token.Tokenization(queryFile))
+        print(query_dict)
+        
     
     for document, termDict in diction_dict.items():
-        
         for term, tf in termDict.items():
-            if term in query_dict.keys():
+            try:
                 numerator += query_dict[term] * tf
                 denomDoc += tf * tf
                 denomQuery += query_dict[term] * query_dict[term]
+            except KeyError:
+                numerator += 0 * tf
+                denomDoc += tf * tf
+                denomQuery += 0 * 0
         try:
             similarity = numerator/math.sqrt(denomDoc * denomQuery)
         except ZeroDivisionError:
+            print("Zero Division")
             similarity = 0
             
         print(document,similarity)
@@ -47,5 +54,5 @@ def RankedDocument(searchQuery):
 
 def QueryFromGUI(query):
     print(query)
-    print(RankedDocument(query))
+    RankedDocument(query)
 

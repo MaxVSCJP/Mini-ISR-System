@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 
-PUNC = {"።","፤",".","፥","፣","?",":",";","!","፡"}
-num = {"፪","፫","፬","፭","ዕፀ","፮","፯","፰","፱","፻","፴","፳","፩","፹",".",":","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n", "\t"}
+PUNC = {"።","፤","።",".","፨"}
+num = {"፪","፫","፬","፭","ዕፀ","፮","፯","፰","፱","",".","?",":","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n", "\t"}
 word_dic_global = {}
 sorted_dict_values = {}
 
@@ -13,18 +13,32 @@ def Tokenization(f):
     global word_dic_global
     global sorted_dict_values 
     for line in f:
-        words = line.lower().split(" ")
+        words = line.split(" ")
         for word in words:
-            word = word.replace("\n", "").replace("\t", "")
+            word = word.replace("\n", "").replace("\t", "").replace("፨", "")
             if word not in num:
                 if word:
-                    if word[-1] not in PUNC:
-                        word_dic[word]=word_dic.get(word,0)+1
-                        word_dic_global[word] = word_dic.get(word,0)+1
-
-                    else:
-                        word_dic[word[:-1]]=word_dic.get(word[:-1],0)+1
-                        word_dic_global[word[:-1]] = word_dic.get(word[:-1],0)+1
+                    try:
+                        if word[-1] not in PUNC:
+                            if word  in word_dic:
+                                word_dic[word] += 1
+                            else:
+                                word_dic[word] = 1
+                            if word in word_dic_global:
+                                word_dic_global[word] += 1
+                            else:
+                                word_dic_global[word] = 1
+                        else:
+                            if word  in word_dic:
+                                word_dic[word[:-1]] += 1
+                            else:
+                                word_dic[word[:-1]] = 1
+                            if word in word_dic_global:
+                                word_dic_global[word[:-1]] += 1
+                            else:
+                                word_dic_global[word[:-1]] = 1
+                    except KeyError:
+                        continue
 
     sorted_dict_values = dict(sorted(word_dic_global.items(), key=lambda item: item[1],reverse= True))
     sorted_dic = dict(sorted(word_dic.items(), key=lambda item: item[1],reverse= True))
@@ -58,7 +72,8 @@ def RankedBarChart():
     # calculating the constant C for each word 
     print("\n\n")
     for i in range(N):
-        print("Constant C of Rank", i+1, ":  ", word_rank[i] * (frequency[i] / N))
+        # print("Constant C of Rank", i+1, ":  ", word_rank[i] * (frequency[i] / N))
+        print("Constant C of Rank", i+1, ":  ", "Frequency: ", frequency[i], "Relative Frequency:  ", (frequency[i] / N))
 
 
     # making the graph

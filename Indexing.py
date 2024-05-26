@@ -1,13 +1,15 @@
-import Tokenization as token
-import stmmer as stem
 import os
 import json
+import Tokenization as token
+import Stopword as SR
+import stmmer as stem
+import Normalizer as normal
 
-directoryCorpus = ""
+
+directoryCorpus = os.getcwd() + "\\Corpus"
 
 def Indexing():
     global directoryCorpus
-    # Read the file
     diction_dict = {}
     directoryCorpus = os.getcwd() + "\\Corpus"
     corpus = os.listdir(directoryCorpus)
@@ -15,7 +17,7 @@ def Indexing():
 
     for file in corpus:
         with open(directoryCorpus + "\\" + file, "r",encoding= "utf-8") as f:
-            diction_dict[file] = stem.geez_stemmer((token.Tokenization(f)))
+            diction_dict[file] = SR.SWRLower(normal.charnorm(stem.geez_stemmer(SR.SWRUpper(token.Tokenization(f)))))
             
 
     with open ("Inverted file.txt", "w") as IFile:
@@ -24,6 +26,5 @@ def Indexing():
     IFile.close()
 
 def showRankedBarChart():
+    print("Hello showRandedBarchart")
     token.RankedBarChart()
-
-Indexing()

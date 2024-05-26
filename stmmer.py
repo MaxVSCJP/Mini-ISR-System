@@ -35,8 +35,7 @@ import re
 
 # Recording rules and exceptions
 def apply_recording_rules(word):
-    # Implement the recording rules based on the document
-    # Example rules:
+   
     if len(word) == 2:
         return word
     if word.startswith("ተ") and word[1] == "ን":
@@ -48,6 +47,16 @@ def apply_recording_rules(word):
     if word.startswith("አ") and (word[1] == "ፍ" or word[1] == "ፋ"):
         return word
     if word.startswith("ኢት") or word.startswith("ኢየ") and (word[2] == "ዮ" or word[2] == "ሩ"):
+        return word
+    if word.endswith("ሌ") and word[-2] == "ጌ":
+        return word
+    if len(word) == 3 and word.endswith("ይ"):
+        return word
+    if len(word) <= 3 and word.endswith("ት"):
+        return word
+    if len(word) == 3 and word.endswith("ይ"):
+        return word
+    if len(word) == 3 and word.endswith("የ"):
         return word
     return None
 
@@ -116,3 +125,5 @@ def geez_stemmer(word_list):
     
     
     return stemmed_words
+
+
