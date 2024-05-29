@@ -29,9 +29,3 @@ def SWRUpper(dictionary):
     for key in keystore:
         dictionary.pop(key)
     return dictionary
-
-
-
-
-
-

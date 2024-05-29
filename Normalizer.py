@@ -44,9 +44,3 @@ def charnorm(text_input: dict[str, int]):
         else:
             text_input[normText] = text_input.pop(term)
     return text_input
-
-
-
-""" input_text = {"ወኮነ": 1, "ሶበ": 1, "ፄወዎሙ": 1, "ለደቂቀ": 1, "እስራኤል": 1, "ንጉሠ": 1 , "ከላዴዎን": 1, "ነበቦ": 1, "እግዚአብሔር": 1, "ኖጉሠ": 1}
-normalized_text = charnorm(input_text, character_replacements)
-print(normalized_text) """

@@ -5,7 +5,7 @@ import stmmer as stem
 import Stopword as SR
 import Normalizer as normal
 
-diction_dicts = json.load(open("Inverted File.txt"))
+diction_dicts = json.load(open("Inverted file.txt"))
 rankedSearch = []
 
 def Search(query, diction_dict: dict[str, dict[str, int]]):
