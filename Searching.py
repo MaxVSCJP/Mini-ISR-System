@@ -56,5 +56,5 @@ def RankedDocument(searchQuery):
 
 def QueryFromGUI(query):
     print(query)
-    RankedDocument(query)
+    print(RankedDocument(query))
 

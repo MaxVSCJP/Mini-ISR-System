@@ -71,6 +71,8 @@ def RankedBarChart():
 
     # calculating the constant C for each word 
     print("\n\n")
+    """ for i in range(N):
+        print("Constant C of Rank", i+1, ":  ", "Frequency: ", frequency[i], "   ", (frequency[i] / N)) """
 
     # making the graph
     plt.figure(figsize=(24, 12))
