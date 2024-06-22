@@ -1,8 +1,12 @@
 import json
 import Tokenization as token
 import math
+import stmmer as stem
+import Stopword as SR
+import Normalizer as normal
 
-diction_dicts = json.load(open("Inverted File.txt"))
+diction_dicts = json.load(open("Inverted file.txt"))
+rankedSearch = []
 
 def Search(query, diction_dict: dict[str, dict[str, int]]):
     numerator = 0
@@ -14,18 +18,24 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
         queryFile.close()
 
     with open("Query.txt", "r", encoding="UTF-8") as queryFile:
-        query_dict = token.Tokenization(queryFile)
+        query_dict = SR.SWRLower(normal.charnorm(stem.geez_stemmer(token.Tokenization(queryFile))))
+        print(query_dict)
+        
     
     for document, termDict in diction_dict.items():
-        
         for term, tf in termDict.items():
-            if term in query_dict.keys():
+            try:
                 numerator += query_dict[term] * tf
                 denomDoc += tf * tf
                 denomQuery += query_dict[term] * query_dict[term]
+            except KeyError:
+                numerator += 0 * tf
+                denomDoc += tf * tf
+                denomQuery += 0 * 0
         try:
             similarity = numerator/math.sqrt(denomDoc * denomQuery)
         except ZeroDivisionError:
+            print("Zero Division")
             similarity = 0
             
         print(document,similarity)
@@ -37,9 +47,14 @@ def Search(query, diction_dict: dict[str, dict[str, int]]):
 
 
 def RankedDocument(searchQuery):
-    rankedSearch = dict(sorted(Search(searchQuery, diction_dicts).items(), key=lambda item: item[1],reverse= True))
-    return rankedSearch.keys()
+    global rankedSearch
+    rankedSearch_dict = dict(sorted(Search(searchQuery, diction_dicts).items(), key=lambda item: item[1],reverse= True))
+    rankedSearch = list(rankedSearch_dict.keys())
+    return rankedSearch_dict.keys()
 
-query = input("Input Query\n")
-print(RankedDocument(query))
+
+
+def QueryFromGUI(query):
+    print(query)
+    RankedDocument(query)
 
